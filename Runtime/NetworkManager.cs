@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Unity.Networking.Transport;
+
 using Unity.Networking.Transport.Relay;
 using Unity.Collections;
 using UnityEngine;
@@ -10,6 +10,7 @@ using System;
 using System.Text;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
+using Unity.Networking.Transport;
 
 public class NetworkManager : MonoBehaviour
 {
