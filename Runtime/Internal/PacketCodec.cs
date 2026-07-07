@@ -2,7 +2,7 @@ using Unity.Collections;
 
 public class PacketCodec
 {
-    public struct Packet
+    public struct ClientPacket
     {
         public byte type;
         public int connectionId;
@@ -55,7 +55,7 @@ public class PacketCodec
     }
 
     // Reading
-    public static bool ReadNext(ref DataStreamReader reader, out Packet packet)
+    public static bool ReadNext(ref DataStreamReader reader, out ClientPacket packet)
     {
         packet = default;
 

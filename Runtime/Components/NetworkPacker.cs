@@ -186,6 +186,7 @@ public class NetworkPacker : MonoBehaviour
     #region Listeners
     void Start()
     {
+        networkPacker = this;
         networkManager = GetComponent<NetworkManager>();
         networkManager.OnBytesReceived += OnBytesReceived;
         RegisterSchema(1, new byte[] { PAYLOAD });
@@ -286,3 +287,11 @@ public class NetworkPacker : MonoBehaviour
     }
     #endregion
 }
+
+// HOW TO WRITE DATA
+// DataStreamWriter writer = new DataStreamWriter(128, Allocator.Temp);
+
+// writer.WriteInt(id);
+// writer.WriteByte(type);
+
+// NativeArray<byte> payload = writer.AsNativeArray();

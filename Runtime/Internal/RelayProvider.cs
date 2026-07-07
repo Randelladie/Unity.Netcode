@@ -11,8 +11,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using Unity.Collections;
 
-public class RelayHandler
+public class RelayProvider
 {
+    #region Fields
+    private const string connectionType = "dtls";
+    public bool unityServiceInitialized { get { return (UnityServices.State == ServicesInitializationState.Initialized); } }
+    public List<string> regionIds { get; private set; } = new List<string>();
+    public string joinCode { get; private set; } = "";
+    public RelayServerData relayData { get; private set; }
+
+    private Allocation hostAllocation;
+    private JoinAllocation joinAllocation;
+    #endregion
+
     #region Events
     /// <summary>
     /// Fired when Unity Services (Authentication, Relay, etc.) have been successfully initialized.
@@ -35,18 +46,7 @@ public class RelayHandler
     public event Action<string> OnRelayError;
     #endregion
 
-    #region Fields
-    private const string connectionType = "dtls";
-    public bool unityServiceInitialized { get { return (UnityServices.State == ServicesInitializationState.Initialized); } }
-    public List<string> regionIds { get; private set; } = new List<string>();
-    public string joinCode { get; private set; } = "";
-    public RelayServerData relayData { get; private set; }
-
-    private Allocation hostAllocation;
-    private JoinAllocation joinAllocation;
-    #endregion
-
-    #region Initialize Unity Services
+    #region Public Functions
     /// <summary>
     /// Initialize Unity Services, which allows the use of Unity Relay
     /// </summary>
@@ -66,9 +66,7 @@ public class RelayHandler
             OnRelayError?.Invoke(e.Message);
         }
     }
-    #endregion
 
-    #region Get Regions
     /// <summary>
     /// Retrieves all available Relay regions from Unity Relay service.
     /// Fires the OnRegionsRetrieved event when done.
@@ -87,9 +85,7 @@ public class RelayHandler
         }
         return regionIds;
     }
-    #endregion
 
-    #region Host Relay
     /// <summary>
     /// Hosts a Relay server with the specified maximum connections and region.
     /// </summary>
@@ -123,9 +119,7 @@ public class RelayHandler
         // 4. Pass it to your network manager to create driver, bind, and listen
         return relayData;
     }
-    #endregion
 
-    #region Join Relay
     public async Task<RelayServerData> JoinRelay(string joinCode)
     {
         Debug.Log(joinCode);
